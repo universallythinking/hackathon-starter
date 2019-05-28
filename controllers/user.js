@@ -241,6 +241,9 @@ exports.postAddBank = (req, res, next) => {
       case "15":
         user.usbank = req.body.account + ':::' + req.body.routing || '';
         break;
+      case "16":
+        user.quicken = req.body.account + ':::' + req.body.routing || '';
+        break;
       default:
         // code block
     }
@@ -253,7 +256,7 @@ exports.postAddBank = (req, res, next) => {
         }
         return next(err);
       }
-      req.flash('success', { msg: 'Profile information has been updated.' });
+      req.flash('success', { msg: 'Bank information has been updated.' });
       res.redirect('/addBank');
     });
   });
@@ -296,8 +299,11 @@ exports.postGetUserBank = (req, res, next) => {
       case "15":
         res.send(JSON.stringify(user.usbank));
         break;
+      case "16":
+        res.send(JSON.stringify(user.quicken));
+        break;
       default:
-        res.send(JSON.stringify(req.body.bankName));
+        res.send(req.body.bankName);
     }
   });
 };

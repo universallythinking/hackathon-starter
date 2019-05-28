@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
   regions: String,
   tdbank: String,
   usbank: String,
+  quicken: String,
   tokens: Array,
 
   profile: {
