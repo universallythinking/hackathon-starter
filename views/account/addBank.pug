@@ -1,0 +1,52 @@
+extends ../layout
+
+block content
+  .pb-2.mt-2.mb-4.border-bottom
+    h3 Bank Information
+  form(action='/account/addBank', method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.control-label.requiredField(for='propertyType')
+        | Bank Name
+        span.asteriskField *
+      .col-xs-12
+        select#propertyType.select.form-control.input-lg(form='addProperty', name='propertyType', onChange="updateNumbers();")
+          option(value='6', selected= 6, class='item.bank') Bank of America
+          option(value='7', selected= 7, class='item.bank') BBT
+          option(value='8', selected= 8, class='item.bank') Chase
+          option(value='9', selected= 9, class='item.bank') Citi
+          option(value='10', selected= 10, class='item.bank') Fifth Third Bank
+          option(value='11', selected= 11, class='item.bank') Key Bank
+          option(value='12', selected= 12, class='item.bank') PNC
+          option(value='13', selected= 13, class='item.bank') Regions
+          option(value='14', selected= 14, class='item.bank') TD Bank
+          option(value='15', selected= 15, class='item.bank') US Bank
+          option(value='0', selected= true) -- Select --
+          script.
+            var updateNumbers =
+            function(){
+                var option = $("#propertyType").find("option:selected").val();
+                var data = {};
+                data.bankName = option;
+                $.ajax({
+                    url: '/getUserBank',
+                    data: data,
+                    success: function(response) {
+                        alert(response)
+                    },
+                });
+            };
+            //setInterval(ticker, 5000);
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='routingNumber') Routing Number
+      .col-md-7
+        input.form-control(type='number', name='routing', id='routing', value=user.routing, placeholder='000000000001')
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='accountNumber') Account Number
+      .col-md-7
+        input.form-control(type='number', name='account', id='account', value=user.account, placeholder='000000000001')
+    .form-group
+      .offset-sm-3.col-md-7.pl-2
+        button.btn.btn.btn-primary(type='submit')
+          i.fas.fa-pencil-alt.fa-sm
+          | Save Bank

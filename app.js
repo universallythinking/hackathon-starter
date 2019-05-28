@@ -126,10 +126,11 @@ app.use('/webfonts', express.static(path.join(__dirname, 'node_modules/@fortawes
 /**
  * Primary app routes.
  */
-app.get('/', homeController.index);
+app.get('/', userController.index);
+app.post('/', userController.postLogin);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
-app.get('/loggedIn', userController.getLoggedIn);
+app.get('/loggedIn', userController.getLogin);
 app.get('/logout', userController.logout);
 app.get('/forgot', userController.getForgot);
 app.post('/forgot', userController.postForgot);
@@ -144,6 +145,9 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+app.get('/addBank', passportConfig.isAuthenticated, userController.addBank);
+app.get('/getUserBank', passportConfig.isAuthenticated, userController.getUserBank);
+app.post('/account/addBank', passportConfig.isAuthenticated, userController.postAddBank);
 
 /**
  * API examples routes.

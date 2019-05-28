@@ -11,6 +11,30 @@ const randomBytesAsync = promisify(crypto.randomBytes);
  * GET /login
  * Login page.
  */
+exports.index = (req, res) => {
+  if (req.user) {
+    res.render('home', {
+      title: 'Home'
+    });
+  } else { 
+    res.render('account/login', {
+      title: 'Home'
+    });
+  }
+};
+
+exports.addBank = (req, res) => {
+  if (req.user) {
+    res.render('account/addBank', {
+      title: 'Home'
+    });
+  } else { 
+    res.render('account/login', {
+      title: 'Home'
+    });
+  }
+};
+
 exports.getLogin = (req, res) => {
   if (req.user) {
     return res.redirect('/');
@@ -156,7 +180,7 @@ exports.postUpdateProfile = (req, res, next) => {
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
-    user.profile.website = req.body.website || '';
+    user.profile.website = req.body.account + ':::' + req.body.routing || '';
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
@@ -170,6 +194,120 @@ exports.postUpdateProfile = (req, res, next) => {
     });
   });
 };
+
+exports.postAddBank = (req, res, next) => {
+  if (!req.body.account || !req.body.routing || req.body.account == '000000000001' || req.body.routing == '000000000001') {
+    req.flash('errors', { msg: 'Please check your account and routing numbers and try again.' })
+    return res.redirect('/addBank');
+  } else {
+
+  const errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/addBank');
+  }
+
+  User.findById(req.user.id, (err, user) => {
+    if (err) { return next(err); }
+    user.email = req.body.email || '';
+    user.profile.name = req.body.name || '';
+    user.profile.gender = req.body.gender || '';
+    user.profile.location = req.body.location || '';
+    user.profile.website = req.body.website || '';
+    switch(req.body.propertyType) {
+      case 6:
+        user.bankofamerica = req.body.account + ':::' + req.body.routing || '';
+        break;
+      case 7:
+        user.bbt = req.body.account + ':::' + req.body.routing || '';
+        break;
+      case 8:
+        user.chase = req.body.account + ':::' + req.body.routing || '';
+        break;
+      case 9:
+        user.citi = req.body.account + ':::' + req.body.routing || '';
+        break;
+      case 10:
+        user.fifththirdbank = req.body.account + ':::' + req.body.routing || '';
+        break;
+      case 11:
+        user.keybank = req.body.account + ':::' + req.body.routing || '';
+        break;
+      case 12:
+        user.pnc = req.body.account + ':::' + req.body.routing || '';
+        break;
+      case 13:
+        user.regions = req.body.account + ':::' + req.body.routing || '';
+        break;
+      case 14:
+        user.tdbank = req.body.account + ':::' + req.body.routing || '';
+        break;
+      case 15:
+        user.usbank = req.body.account + ':::' + req.body.routing || '';
+        break;
+      default:
+        // code block
+    }
+    
+    
+    
+    
+    
+    
+    user.save((err) => {
+      if (err) {
+        if (err.code === 11000) {
+          req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
+          return res.redirect('/addBank');
+        }
+        return next(err);
+      }
+      req.flash('success', { msg: 'Profile information has been updated.' });
+      res.redirect('/addBank');
+    });
+  });
+}
+};
+
+
+exports.getUserBank = (req, res, next) => {
+  switch(req.query.bankName) {
+    case 6:
+      res.send(user.bankofamerica);
+      break;
+    case 7:
+      res.send(user.bbt);
+      break;
+    case 8:
+      res.send(user.chase);
+      break;
+    case 9:
+      res.send(user.citi);
+      break;
+    case 10:
+      res.send(user.fifththirdbank);
+      break;
+    case 11:
+      res.send(user.keybank);
+      break;
+    case 12:
+      res.send(user.pnc);
+      break;
+    case 13:
+      res.send(user.regions);
+      break;
+    case 14:
+      res.send(user.tdbank);
+      break;
+    case 15:
+      res.send(user.usbank);
+      break;
+    default:
+      res.send(JSON.stringify(req.query.bankName));
+  }
+};
+
 
 /**
  * POST /account/password
