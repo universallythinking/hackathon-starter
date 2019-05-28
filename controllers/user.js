@@ -35,6 +35,18 @@ exports.addBank = (req, res) => {
   }
 };
 
+exports.transfer = (req, res) => {
+  if (req.user) {
+    res.render('account/balances', {
+      title: 'Home'
+    });
+  } else { 
+    res.render('home', {
+      title: 'Home'
+    });
+  }
+};
+
 exports.getLogin = (req, res) => {
   if (req.user) {
     return res.redirect('/');
@@ -180,7 +192,7 @@ exports.postUpdateProfile = (req, res, next) => {
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
-    user.profile.website = req.body.account + ':::' + req.body.routing || '';
+    user.profile.website = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
@@ -210,39 +222,41 @@ exports.postAddBank = (req, res, next) => {
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
+    console.log(req.body.account + ':::' + req.body.routing + ':|:' + req.body.balance);
+    console.log(req.body.propertyType);
     switch(req.body.propertyType) {
       case "6":
-        user.bankofamerica = req.body.account + ':::' + req.body.routing || '';
+        user.bankofamerica = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "7":
-        user.bbt = req.body.account + ':::' + req.body.routing || '';
+        user.bbt = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "8":
-        user.chase = req.body.account + ':::' + req.body.routing || '';
+        user.chase = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "9":
-        user.citi = req.body.account + ':::' + req.body.routing || '';
+        user.citi = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "10":
-        user.fifththirdbank = req.body.account + ':::' + req.body.routing || '';
+        user.fifththirdbank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "11":
-        user.keybank = req.body.account + ':::' + req.body.routing || '';
+        user.keybank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "12":
-        user.pnc = req.body.account + ':::' + req.body.routing || '';
+        user.pnc = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "13":
-        user.regions = req.body.account + ':::' + req.body.routing || '';
+        user.regions = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "14":
-        user.tdbank = req.body.account + ':::' + req.body.routing || '';
+        user.tdbank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "15":
-        user.usbank = req.body.account + ':::' + req.body.routing || '';
+        user.usbank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       case "16":
-        user.quicken = req.body.account + ':::' + req.body.routing || '';
+        user.quicken = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
         break;
       default:
         // code block
@@ -300,6 +314,7 @@ exports.postGetUserBank = (req, res, next) => {
         res.send(JSON.stringify(user.usbank));
         break;
       case "16":
+        console.log(JSON.stringify(user));
         res.send(JSON.stringify(user.quicken));
         break;
       default:
@@ -331,6 +346,108 @@ exports.postUpdatePassword = (req, res, next) => {
       if (err) { return next(err); }
       req.flash('success', { msg: 'Password has been changed.' });
       res.redirect('/account');
+    });
+  });
+};
+
+exports.postTransfer = (req, res, next) => {
+  const errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/addBank');
+  }
+
+  User.findById(req.user.id, (err, user) => {
+    if (err) { return next(err); }
+    console.log(req.body.account + ':::' + req.body.routing + ':|:' + req.body.amount);
+    console.log(req.body.propertyType);
+    switch(req.body.transferFrom) {
+      case "6":
+        user.bankofamerica =  user.bankofamerica.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "7":
+        user.bbt =  user.bbt.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "8":
+        user.chase =  user.chase.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "9":
+        user.citi =  user.citi.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "10":
+        user.fifththirdbank =  user.fifththirdbank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "11":
+        user.keybank = user.keybank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "12":
+        user.pnc =  user.pnc.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "13":
+        user.regions = user.regions.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "14":
+        user.tdbank =  user.tdbank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "15":
+        user.usbank =  user.usbank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      case "16":
+        user.quicken =  user.quicken.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        break;
+      default:
+        // code block
+    }
+
+    switch(req.body.transferTo) {
+      case "6":
+        user.bankofamerica =  user.bankofamerica.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "7":
+        user.bbt = user.bbt.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "8":
+        user.chase =  user.chase.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "9":
+        user.citi =  user.citi.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "10":
+        user.fifththirdbank =  user.fifththirdbank.split(":|:")[0]+ ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "11":
+        user.keybank =  user.keybank.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "12":
+        user.pnc =  user.pnc.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "13":
+        user.regions =  user.regions.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "14":
+        user.tdbank =  user.tdbank.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "15":
+        user.usbank =  user.usbank.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      case "16":
+        user.quicken = user.quicken.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        break;
+      default:
+        // code block
+    }
+    
+    user.save((err) => {
+      if (err) {
+        if (err.code === 11000) {
+          req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
+          return res.redirect('/transfer');
+        }
+        return next(err);
+      }
+      req.flash('success', { msg: 'Bank information has been updated.' });
+      res.redirect('/transfer');
     });
   });
 };

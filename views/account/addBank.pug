@@ -10,7 +10,7 @@ block content
         | Bank Name
         span.asteriskField *
       .col-xs-12
-        select#propertyType.select.form-control.input-lg(form='addProperty', name='propertyType', onChange="updateNumbers();")
+        select#propertyType.select.form-control.input-lg(name='propertyType', onChange="updateNumbers();")
           option(value='6', selected= 6) Bank of America
           option(value='7', selected= 7) BBT
           option(value='8', selected= 8) Chase
@@ -35,10 +35,22 @@ block content
                     url: '/account/getUserBank',
                     data: data,
                     success: function(response) {
-                        console.log(response)
+                        if (response.length > 5) {
+                            $("#account").val(JSON.parse(response).split(":::")[0]);
+                            $("#routing").val(JSON.parse(response).split(":::")[1].split(":|:")[0]);
+                            $("#balance").val(JSON.parse(response).split(":|:")[1]);
+                        } else {
+                            $("#account").val("");
+                            $("#routing").val("");
+                        }
+                        console.log(JSON.parse(response));
                     },
                 });
             };
+    .form-group.row
+      label.col-md-3.col-form-label.font-weight-bold.text-right(for='balance') Balance
+      .col-md-7(style="pointer-events: none")
+        input.form-control(type='number', name='balance', id='balance', placeholder='0')
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='routingNumber') Routing Number
       .col-md-7

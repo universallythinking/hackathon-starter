@@ -148,6 +148,8 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
 app.get('/addBank', passportConfig.isAuthenticated, userController.addBank);
 app.post('/account/getUserBank', passportConfig.isAuthenticated, userController.postGetUserBank);
 app.post('/account/addBank', passportConfig.isAuthenticated, userController.postAddBank);
+app.get('/transfer', passportConfig.isAuthenticated, userController.transfer);
+app.post('/account/transfer', passportConfig.isAuthenticated, userController.postTransfer);
 
 /**
  * API examples routes.
