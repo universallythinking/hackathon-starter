@@ -192,7 +192,7 @@ exports.postUpdateProfile = (req, res, next) => {
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
-    user.profile.website = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+    user.profile.website = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
@@ -226,37 +226,37 @@ exports.postAddBank = (req, res, next) => {
     console.log(req.body.propertyType);
     switch(req.body.propertyType) {
       case "6":
-        user.bankofamerica = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.bankofamerica = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "7":
-        user.bbt = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.bbt = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "8":
-        user.chase = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.chase = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "9":
-        user.citi = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.citi = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "10":
-        user.fifththirdbank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.fifththirdbank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "11":
-        user.keybank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.keybank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "12":
-        user.pnc = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.pnc = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "13":
-        user.regions = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.regions = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "14":
-        user.tdbank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.tdbank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "15":
-        user.usbank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.usbank = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       case "16":
-        user.quicken = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance || '0') || '';
+        user.quicken = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
       default:
         // code block
@@ -364,37 +364,37 @@ exports.postTransfer = (req, res, next) => {
     console.log(req.body.propertyType);
     switch(req.body.transferFrom) {
       case "6":
-        user.bankofamerica =  user.bankofamerica.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.bankofamerica =  user.bankofamerica.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "7":
-        user.bbt =  user.bbt.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.bbt =  user.bbt.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "8":
-        user.chase =  user.chase.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.chase =  user.chase.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "9":
-        user.citi =  user.citi.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.citi =  user.citi.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "10":
-        user.fifththirdbank =  user.fifththirdbank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.fifththirdbank =  user.fifththirdbank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "11":
-        user.keybank = user.keybank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.keybank = user.keybank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "12":
-        user.pnc =  user.pnc.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.pnc =  user.pnc.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "13":
-        user.regions = user.regions.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.regions = user.regions.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "14":
-        user.tdbank =  user.tdbank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.tdbank =  user.tdbank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "15":
-        user.usbank =  user.usbank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.usbank =  user.usbank.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       case "16":
-        user.quicken =  user.quicken.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount)) || '0';
+        user.quicken =  user.quicken.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
       default:
         // code block
@@ -402,37 +402,37 @@ exports.postTransfer = (req, res, next) => {
 
     switch(req.body.transferTo) {
       case "6":
-        user.bankofamerica =  user.bankofamerica.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.bankofamerica =  user.bankofamerica.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "7":
-        user.bbt = user.bbt.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.bbt = user.bbt.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "8":
-        user.chase =  user.chase.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.chase =  user.chase.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "9":
-        user.citi =  user.citi.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.citi =  user.citi.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "10":
-        user.fifththirdbank =  user.fifththirdbank.split(":|:")[0]+ ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.fifththirdbank =  user.fifththirdbank.split(":|:")[0]+ ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "11":
-        user.keybank =  user.keybank.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.keybank =  user.keybank.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "12":
-        user.pnc =  user.pnc.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.pnc =  user.pnc.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "13":
-        user.regions =  user.regions.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.regions =  user.regions.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "14":
-        user.tdbank =  user.tdbank.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.tdbank =  user.tdbank.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "15":
-        user.usbank =  user.usbank.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.usbank =  user.usbank.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       case "16":
-        user.quicken = user.quicken.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount)) || '0';
+        user.quicken = user.quicken.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       default:
         // code block
