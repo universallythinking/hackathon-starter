@@ -272,40 +272,43 @@ exports.postAddBank = (req, res, next) => {
 
 
 exports.getUserBank = (req, res, next) => {
-  switch(req.query.bankName) {
-    case "6":
-      res.send(user.bankofamerica);
-      break;
-    case "7":
-      res.send(user.bbt);
-      break;
-    case "8":
-      res.send(user.chase);
-      break;
-    case "9":
-      res.send(user.citi);
-      break;
-    case "10":
-      res.send(user.fifththirdbank);
-      break;
-    case "11":
-      res.send(user.keybank);
-      break;
-    case "12":
-      res.send(user.pnc);
-      break;
-    case "13":
-      res.send(user.regions);
-      break;
-    case "14":
-      res.send(user.tdbank);
-      break;
-    case "15":
-      res.send(user.usbank);
-      break;
-    default:
-      res.send(JSON.stringify(req.query.bankName));
-  }
+  User.findById(req.user.id, (err, user) => {
+    if (err) { return next(err); }
+    switch(req.query.bankName) {
+      case "6":
+        res.send(user.bankofamerica);
+        break;
+      case "7":
+        res.send(user.bbt);
+        break;
+      case "8":
+        res.send(user.chase);
+        break;
+      case "9":
+        res.send(user.citi);
+        break;
+      case "10":
+        res.send(user.fifththirdbank);
+        break;
+      case "11":
+        res.send(user.keybank);
+        break;
+      case "12":
+        res.send(user.pnc);
+        break;
+      case "13":
+        res.send(user.regions);
+        break;
+      case "14":
+        res.send(user.tdbank);
+        break;
+      case "15":
+        res.send(user.usbank);
+        break;
+      default:
+        res.send(JSON.stringify(req.query.bankName));
+    }
+  });
 };
 
 
