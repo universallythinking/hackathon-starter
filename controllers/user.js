@@ -273,37 +273,37 @@ exports.postAddBank = (req, res, next) => {
 
 exports.getUserBank = (req, res, next) => {
   User.findById(req.user.id, (err, user) => {
-    if (err) { return next(err); }
+    if (err) { return res.send(JSON.stringify(req.query.bankName)); }
     switch(req.query.bankName) {
       case "6":
-        res.send(user.bankofamerica);
+        res.send(JSON.stringify(user.bankofamerica));
         break;
       case "7":
-        res.send(user.bbt);
+        res.send(JSON.stringify(user.bbt));
         break;
       case "8":
-        res.send(user.chase);
+        res.send(JSON.stringify(user.chase));
         break;
       case "9":
-        res.send(user.citi);
+        res.send(JSON.stringify(user.citi));
         break;
       case "10":
-        res.send(user.fifththirdbank);
+        res.send(JSON.stringify(user.fifththirdbank));
         break;
       case "11":
-        res.send(user.keybank);
+        res.send(JSON.stringify(user.keybank));
         break;
       case "12":
-        res.send(user.pnc);
+        res.send(JSON.stringify(user.pnc));
         break;
       case "13":
-        res.send(user.regions);
+        res.send(JSON.stringify(user.regions));
         break;
       case "14":
-        res.send(user.tdbank);
+        res.send(JSON.stringify(user.tdbank));
         break;
       case "15":
-        res.send(user.usbank);
+        res.send(JSON.stringify(user.usbank));
         break;
       default:
         res.send(JSON.stringify(req.query.bankName));
