@@ -273,34 +273,34 @@ exports.postAddBank = (req, res, next) => {
 
 exports.getUserBank = (req, res, next) => {
   switch(req.query.bankName) {
-    case 6:
+    case "6":
       res.send(user.bankofamerica);
       break;
-    case 7:
+    case "7":
       res.send(user.bbt);
       break;
-    case 8:
+    case "8":
       res.send(user.chase);
       break;
-    case 9:
+    case "9":
       res.send(user.citi);
       break;
-    case 10:
+    case "10":
       res.send(user.fifththirdbank);
       break;
-    case 11:
+    case "11":
       res.send(user.keybank);
       break;
-    case 12:
+    case "12":
       res.send(user.pnc);
       break;
-    case 13:
+    case "13":
       res.send(user.regions);
       break;
-    case 14:
+    case "14":
       res.send(user.tdbank);
       break;
-    case 15:
+    case "15":
       res.send(user.usbank);
       break;
     default:
