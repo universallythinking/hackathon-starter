@@ -4,23 +4,23 @@ block content
   .pb-2.mt-2.mb-4.border-bottom
     h3 Bank Information
   form(action='/account/addBank', method='POST')
-    input(type='hidden', name='_csrf', value=_csrf)
+    input(type='hidden', name='_csrf', value=_csrf, id="CSRFToken")
     .form-group
       label.control-label.requiredField(for='propertyType')
         | Bank Name
         span.asteriskField *
       .col-xs-12
         select#propertyType.select.form-control.input-lg(form='addProperty', name='propertyType', onChange="updateNumbers();")
-          option(value='6', selected= 6, class='item.bank') Bank of America
-          option(value='7', selected= 7, class='item.bank') BBT
-          option(value='8', selected= 8, class='item.bank') Chase
-          option(value='9', selected= 9, class='item.bank') Citi
-          option(value='10', selected= 10, class='item.bank') Fifth Third Bank
-          option(value='11', selected= 11, class='item.bank') Key Bank
-          option(value='12', selected= 12, class='item.bank') PNC
-          option(value='13', selected= 13, class='item.bank') Regions
-          option(value='14', selected= 14, class='item.bank') TD Bank
-          option(value='15', selected= 15, class='item.bank') US Bank
+          option(value='6', selected= 6) Bank of America
+          option(value='7', selected= 7) BBT
+          option(value='8', selected= 8) Chase
+          option(value='9', selected= 9) Citi
+          option(value='10', selected= 10) Fifth Third Bank
+          option(value='11', selected= 11) Key Bank
+          option(value='12', selected= 12) PNC
+          option(value='13', selected= 13) Regions
+          option(value='14', selected= 14) TD Bank
+          option(value='15', selected= 15) US Bank
           option(value='0', selected= true) -- Select --
           script.
             var updateNumbers =
@@ -28,15 +28,16 @@ block content
                 var option = $("#propertyType").find("option:selected").val();
                 var data = {};
                 data.bankName = option;
+                data._csrf = $("#CSRFToken").val(),
                 $.ajax({
-                    url: '/getUserBank',
+                    type: 'POST',
+                    url: '/account/getUserBank',
                     data: data,
                     success: function(response) {
-                        alert(response)
+                        console.log(response)
                     },
                 });
             };
-            //setInterval(ticker, 5000);
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='routingNumber') Routing Number
       .col-md-7

@@ -210,50 +210,40 @@ exports.postAddBank = (req, res, next) => {
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
-    user.email = req.body.email || '';
-    user.profile.name = req.body.name || '';
-    user.profile.gender = req.body.gender || '';
-    user.profile.location = req.body.location || '';
-    user.profile.website = req.body.website || '';
     switch(req.body.propertyType) {
-      case 6:
+      case "6":
         user.bankofamerica = req.body.account + ':::' + req.body.routing || '';
         break;
-      case 7:
+      case "7":
         user.bbt = req.body.account + ':::' + req.body.routing || '';
         break;
-      case 8:
+      case "8":
         user.chase = req.body.account + ':::' + req.body.routing || '';
         break;
-      case 9:
+      case "9":
         user.citi = req.body.account + ':::' + req.body.routing || '';
         break;
-      case 10:
+      case "10":
         user.fifththirdbank = req.body.account + ':::' + req.body.routing || '';
         break;
-      case 11:
+      case "11":
         user.keybank = req.body.account + ':::' + req.body.routing || '';
         break;
-      case 12:
+      case "12":
         user.pnc = req.body.account + ':::' + req.body.routing || '';
         break;
-      case 13:
+      case "13":
         user.regions = req.body.account + ':::' + req.body.routing || '';
         break;
-      case 14:
+      case "14":
         user.tdbank = req.body.account + ':::' + req.body.routing || '';
         break;
-      case 15:
+      case "15":
         user.usbank = req.body.account + ':::' + req.body.routing || '';
         break;
       default:
         // code block
     }
-    
-    
-    
-    
-    
     
     user.save((err) => {
       if (err) {
@@ -271,10 +261,11 @@ exports.postAddBank = (req, res, next) => {
 };
 
 
-exports.getUserBank = (req, res, next) => {
+exports.postGetUserBank = (req, res, next) => {
+  console.log(req.body, req.body.bankName);
   User.findById(req.user.id, (err, user) => {
-    if (err) { return res.send(JSON.stringify(req.query.bankName)); }
-    switch(req.query.bankName) {
+    if (err) { res.send(JSON.stringify(req.body.bankName)); }
+    switch(req.body.bankName) {
       case "6":
         res.send(JSON.stringify(user.bankofamerica));
         break;
@@ -306,7 +297,7 @@ exports.getUserBank = (req, res, next) => {
         res.send(JSON.stringify(user.usbank));
         break;
       default:
-        res.send(JSON.stringify(req.query.bankName));
+        res.send(JSON.stringify(req.body.bankName));
     }
   });
 };

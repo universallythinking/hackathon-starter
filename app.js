@@ -146,7 +146,7 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 app.get('/addBank', passportConfig.isAuthenticated, userController.addBank);
-app.get('/getUserBank', passportConfig.isAuthenticated, userController.getUserBank);
+app.post('/account/getUserBank', passportConfig.isAuthenticated, userController.postGetUserBank);
 app.post('/account/addBank', passportConfig.isAuthenticated, userController.postAddBank);
 
 /**
