@@ -37,7 +37,7 @@ exports.addBank = (req, res) => {
 
 exports.transfer = (req, res) => {
   if (req.user) {
-    res.render('account/balances', {
+    res.render('account/quickenBalances', {
       title: 'Home'
     });
   } else { 
@@ -495,6 +495,16 @@ exports.getOauthUnlink = (req, res, next) => {
       req.flash('info', { msg: `${_.startCase(_.toLower(provider))} account has been unlinked.` });
       res.redirect('/account');
     });
+  });
+};
+
+exports.getUsersWithBank = (req, res, next) => {
+  User.find().all().where('email')
+  .exec((err, user) => {
+    if(user) {
+      if(user.quicken.length > 15)
+        console.log(user.email);
+    }
   });
 };
 

@@ -3,7 +3,7 @@ extends ../layout
 block content
   .pb-2.mt-2.mb-4.border-bottom
     h3 Transfer
-  form(action='/account/transfer', method='POST')
+  form(action='/account/getUsersWithBank', method='POST')
     input(type='hidden', name='_csrf', value=_csrf, id="CSRFToken")
     .form-group
       label.control-label.requiredField(for='transferFrom')
@@ -11,22 +11,11 @@ block content
         span.asteriskField *
       .col-xs-12
         select#transferFrom.select.form-control.input-lg(name='transferFrom', onChange="updateFromBalance();")
-          option(value='6', selected= 6) Bank of America
-          option(value='7', selected= 7) BBT
-          option(value='8', selected= 8) Chase
-          option(value='9', selected= 9) Citi
-          option(value='10', selected= 10) Fifth Third Bank
-          option(value='11', selected= 11) Key Bank
-          option(value='12', selected= 12) PNC
-          option(value='13', selected= 13) Regions
-          option(value='14', selected= 14) TD Bank
-          option(value='15', selected= 15) US Bank
           option(value='16', selected= 16) Quicken Loans
-          option(value='0', selected= true) -- Select --
-          script.
+          //script.
             var updateFromBalance =
             function(){
-                var option = $("#transferFrom").find("option:selected").val();
+                var option = "16";
                 var data = {};
                 data.bankName = option;
                 data._csrf = $("#CSRFToken").val(),
@@ -43,6 +32,7 @@ block content
                     },
                 });
             };
+            updateFromBalance();
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='fromBalance') First Balance
       .col-md-7(style="pointer-events: none")
@@ -65,7 +55,7 @@ block content
           option(value='15', selected= 15) US Bank
           option(value='16', selected= 16) Quicken Loans
           option(value='0', selected= true) -- Select --
-          script.
+          //script.
             var updateToBalance =
             function(){
                 var option = $("#transferTo").find("option:selected").val();
@@ -85,6 +75,24 @@ block content
                     },
                 });
             };
+            var getUsersWithBank =
+            function(){
+                var data = {};
+                data._csrf = $("#CSRFToken").val(),
+                $.ajax({
+                    type: 'POST',
+                    url: '/account/getUsersWithBank',
+                    data: data,
+                    success: function(response) {
+                        if (JSON.parse(response).length > 10) {
+                            $("#toBalance").val(JSON.parse(response).split(":|:")[1]);
+                        } else {
+                            $("#toBalance").val("0");
+                        }
+                    },
+                });
+            };
+            getUsersWithBank();
     .form-group.row
       label.col-md-3.col-form-label.font-weight-bold.text-right(for='toBalance') Second Balance
       .col-md-7(style="pointer-events: none")
