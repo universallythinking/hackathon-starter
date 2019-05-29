@@ -99,7 +99,7 @@ html
                       if (JSON.parse(response).split(":|:")[1] + ".00" != localStorage.currentBalance) {
                         $("#currentBalance").text(JSON.parse(response).split(":|:")[1] + ".00");
                         localStorage.currentBalance = JSON.parse(response).split(":|:")[1] + ".00";
-                        alert("You have new money in your account!  Transfer, or keep it in SocialPay!")
+                        alert("You have new money in your account!  Transfer it, or keep it in SocialPay!")
                       }
                   } else {
                       $("#currentBalance").val("0.00");
