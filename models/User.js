@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
   keybank: String,
   pnc: String,
   regions: String,
+  socialpay: String,
   tdbank: String,
   usbank: String,
   quicken: String,

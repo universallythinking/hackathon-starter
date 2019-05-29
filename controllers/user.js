@@ -262,6 +262,9 @@ exports.postAddBank = (req, res, next) => {
       case "16":
         user.quicken = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
         break;
+      case "17":
+        user.socialpay = req.body.account + ':::' + req.body.routing + ':|:' + (req.body.balance|| '100') || '';
+        break;
       default:
         // code block
     }
@@ -320,6 +323,10 @@ exports.postGetUserBank = (req, res, next) => {
       case "16":
         console.log(JSON.stringify(user));
         res.send(JSON.stringify(user.quicken));
+        break;
+      case "17":
+        console.log(JSON.stringify(user));
+        res.send(JSON.stringify(user.socialpay));
         break;
       default:
         res.send(req.body.bankName);
@@ -400,6 +407,9 @@ exports.postTransfer = (req, res, next) => {
       case "16":
         user.quicken =  user.quicken.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
         break;
+      case "17":
+        user.socialpay =  user.socialpay.split(":|:")[0] + ':|:' + (parseInt(req.body.fromBalance) - parseInt(req.body.amount))|| '100';
+        break;
       default:
         // code block
     }
@@ -437,6 +447,9 @@ exports.postTransfer = (req, res, next) => {
         break;
       case "16":
         user.quicken = user.quicken.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
+        break;
+      case "17":
+        user.socialpay = user.socialpay.split(":|:")[0] + ':|:' + (parseInt(req.body.toBalance) + parseInt(req.body.amount))|| '100';
         break;
       default:
         // code block
@@ -501,9 +514,14 @@ exports.getOauthUnlink = (req, res, next) => {
     });
   });
 };
-var userMap = [];
+
+exports.getFlashNewMoney = (req, res, next) => {
+  req.flash('info', { msg: "You have received money in your SocialPay account!  Visit the transfers page to deposit it to any account!"});
+  res.redirect('/');
+}
 
 exports.getUsersWithBank = (req, res, next) => {
+  var userMap = [];
   User.find({}, function(err, users) {
     var i = 0;
     users.forEach(function(user) {
@@ -531,7 +549,7 @@ exports.depositFromBank = (req, res, next) => {
   });
 
   User.findById(req.body.transferTo, (err, user) => {
-      user.quicken = user.quicken.split(":|:")[0] + ':|:' + (parseInt(user.quicken.split(":|:")[1]) + parseInt(req.body.amount))|| '100';
+      user.socialpay = user.socialpay.split(":|:")[0] + ':|:' + (parseInt(user.socialpay.split(":|:")[1]) + parseInt(req.body.amount))|| '100';
 
       user.save((err) => {
         if (err) {

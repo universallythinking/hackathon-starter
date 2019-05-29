@@ -1,7 +1,9 @@
-extends layout
+extends homeLayout
 
 block content
   img(src='./images/socialpay.png', style='width: 100%;')
+  p#currentBalance 0.00
+  input(type='hidden', name='_csrf', value=_csrf, id="CSRFToken")
   hr
   .row
     .col-md-6
@@ -11,25 +13,25 @@ block content
         a.btn.btn-raised(href='#', role='button') View legal »
     .form-group(style='margin-left: 7.5%;')
       .offset-md-3.col-md-7.pl-2
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/fifththirdbank.jpg', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/chase.png', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/bbt.jpg', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/bankofamerica.png', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/citi.jpg', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/keybank.png', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/pnc.png', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/regions.png', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/tdbank.png', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/usbank.png', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
-        a(href='/addBank')          
+        a(href='/addBank')
           img(src='images/banks/quicken.png', style='margin-top: 30px; display: inline-block; max-width: 30%; padding: 5%')
