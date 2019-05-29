@@ -16,7 +16,7 @@ exports.index = (req, res) => {
     res.render('home', {
       title: 'Home'
     });
-  } else { 
+  } else {
     res.render('account/login', {
       title: 'Home'
     });
@@ -28,7 +28,7 @@ exports.addBank = (req, res) => {
     res.render('account/addBank', {
       title: 'Home'
     });
-  } else { 
+  } else {
     res.render('account/login', {
       title: 'Home'
     });
@@ -40,7 +40,7 @@ exports.transfer = (req, res) => {
     res.render('account/quickenBalances', {
       title: 'Home'
     });
-  } else { 
+  } else {
     res.render('home', {
       title: 'Home'
     });
@@ -261,7 +261,7 @@ exports.postAddBank = (req, res, next) => {
       default:
         // code block
     }
-    
+
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
@@ -437,7 +437,7 @@ exports.postTransfer = (req, res, next) => {
       default:
         // code block
     }
-    
+
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
@@ -497,14 +497,16 @@ exports.getOauthUnlink = (req, res, next) => {
     });
   });
 };
+var userMap = [];
 
 exports.getUsersWithBank = (req, res, next) => {
-  User.find().all().where('email')
-  .exec((err, user) => {
-    if(user) {
-      if(user.quicken.length > 15)
-        console.log(user.email);
-    }
+  User.find({}, function(err, users) {
+    var i = 0;
+    users.forEach(function(user) {
+      if(user.quicken)userMap.push(user.email+":::"+user._id);
+    });
+    console.log(userMap);
+    res.send(userMap);
   });
 };
 
