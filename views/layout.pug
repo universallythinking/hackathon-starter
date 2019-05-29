@@ -33,3 +33,55 @@ html
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       ga('create', 'UA-XXXXX-X', 'auto');
       ga('send', 'pageview');
+      var updateFromBalance = function(){
+          var option = "16";
+          var data = {};
+          data.bankName = option;
+          data._csrf = $("#CSRFToken").val();
+          $.ajax({
+              type: 'POST',
+              url: '/account/getUserBank',
+              data: data,
+              success: function(response) {
+                  if (JSON.parse(response).length > 10) {
+                      $("#fromBalance").val(JSON.parse(response).split(":|:")[1]);
+                  } else {
+                      $("#fromBalance").val("0");
+                  }
+              },
+          });
+      };
+      var updateToBalance = function(){
+          var option = $("#transferTo").find("option:selected").val();
+          var data = {};
+          data.bankName = option;
+          data._csrf = $("#CSRFToken").val();
+          $.ajax({
+              type: 'POST',
+              url: '/account/getUserBank',
+              data: data,
+              success: function(response) {
+                  if (JSON.parse(response).length > 10) {
+                      $("#toBalance").val(JSON.parse(response).split(":|:")[1]);
+                  } else {
+                      $("#toBalance").val("0");
+                  }
+              },
+          });
+      };
+      var getUsersWithBank = function(){
+          var data = {};
+          data._csrf = $("#CSRFToken").val(),
+          $.ajax({
+              type: 'POST',
+              url: '/account/getUsersWithBank',
+              data: data,
+              success: function(response) {
+                  if (JSON.parse(response).length > 10) {
+                      $("#toBalance").val(JSON.parse(response).split(":|:")[1]);
+                  } else {
+                      $("#toBalance").val("0");
+                  }
+              },
+          });
+      };

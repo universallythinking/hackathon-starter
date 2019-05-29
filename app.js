@@ -151,6 +151,7 @@ app.post('/account/addBank', passportConfig.isAuthenticated, userController.post
 app.get('/transfer', passportConfig.isAuthenticated, userController.transfer);
 app.post('/account/transfer', passportConfig.isAuthenticated, userController.postTransfer);
 app.post('/account/getUsersWithBank', passportConfig.isAuthenticated, userController.getUsersWithBank);
+app.post('/account/depositToUser', passportConfig.isAuthenticated, userController.depositFromBank);
 
 /**
  * API examples routes.

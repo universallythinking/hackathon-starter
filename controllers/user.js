@@ -36,8 +36,12 @@ exports.addBank = (req, res) => {
 };
 
 exports.transfer = (req, res) => {
-  if (req.user) {
+  if (req.user.email.indexOf("quicken") > -1) {
     res.render('account/quickenBalances', {
+      title: 'Home'
+    });
+  } else if (req.user) {
+    res.render('account/balances', {
       title: 'Home'
     });
   } else {
@@ -510,6 +514,38 @@ exports.getUsersWithBank = (req, res, next) => {
   });
 };
 
+exports.depositFromBank = (req, res, next) => {
+  const errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/addBank');
+  }
+
+  User.findById(req.user.id, (err, user) => {
+    if (err) { return next(err); }
+    user.quicken =  user.quicken.split(":|:")[0] + ':|:' + (parseInt(user.quicken.split(":|:")[1]) - parseInt(req.body.amount))|| '100';
+    user.save((err) => {
+        return;
+    });
+  });
+
+  User.findById(req.body.transferTo, (err, user) => {
+      user.quicken = user.quicken.split(":|:")[0] + ':|:' + (parseInt(user.quicken.split(":|:")[1]) + parseInt(req.body.amount))|| '100';
+
+      user.save((err) => {
+        if (err) {
+          if (err.code === 11000) {
+            req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
+            return res.redirect('/transfer');
+          }
+          return next(err);
+        }
+        req.flash('success', { msg: 'Bank information has been updated.' });
+        res.redirect('/transfer');
+      });
+    });
+  };
 /**
  * GET /reset/:token
  * Reset Password page.
