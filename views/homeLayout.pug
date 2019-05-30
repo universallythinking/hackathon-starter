@@ -99,7 +99,7 @@ html
                       if (JSON.parse(response).split(":|:")[1] + ".00" != localStorage.currentBalance) {
                         $("#currentBalance").text(JSON.parse(response).split(":|:")[1] + ".00");
                         localStorage.currentBalance = JSON.parse(response).split(":|:")[1] + ".00";
-                        $("body").prepend('<div class="alert alert-success fade show"><button class="close" type="button" data-dismiss="alert"><i class="far fa-times-circle"></i></button><div>Money has been added to your SocialPay account.</div></div>');
+                        $("body").prepend('<div class="alert alert-success fade show"><button class="close" type="button" data-dismiss="alert"><i class="far fa-times-circle"></i></button><div>Money has been added to your funds from Quicken Loans.</div></div>');
                       }
                   } else if (localStorage.currentBalance) {
                       $("#currentBalance").val(localStorage.currentBalance);
