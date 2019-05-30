@@ -525,7 +525,7 @@ exports.getUsersWithBank = (req, res, next) => {
   User.find({}, function(err, users) {
     var i = 0;
     users.forEach(function(user) {
-      if(user.quicken)userMap.push(user.email+":::"+user._id);
+      if(user.socialpay)userMap.push(user.email+":::"+user._id);
     });
     console.log(userMap);
     res.send(userMap);
