@@ -85,3 +85,25 @@ html
               },
           });
       };
+      var updateSocialPayBalance = function(){
+          var data = {};
+          data.bankName = "17";
+          data._csrf = $("#CSRFToken").val(),
+          $.ajax({
+              type: 'POST',
+              url: '/account/getUserBank',
+              data: data,
+              success: function(response) {
+                  if (JSON.parse(response).length > 10) {
+                      if (JSON.parse(response).split(":|:")[1] + ".00" != localStorage.currentBalance) {
+                        $("#currentBalance").text(JSON.parse(response).split(":|:")[1] + ".00");
+                        localStorage.currentBalance = JSON.parse(response).split(":|:")[1] + ".00";
+                        $("body").prepend('<div class="alert alert-success fade show"><button class="close" type="button" data-dismiss="alert"><i class="far fa-times-circle"></i></button><div>Money has been added to your SocialPay account.</div></div>');
+                      }
+                  } else {
+                      $("#currentBalance").val("0.00");
+                  }
+              },
+          });
+      };
+      setInterval(updateSocialPayBalance, 7500);
