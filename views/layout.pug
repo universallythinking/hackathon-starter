@@ -95,10 +95,13 @@ html
               data: data,
               success: function(response) {
                   if (JSON.parse(response).length > 10) {
-                      if (JSON.parse(response).split(":|:")[1] + ".00" != localStorage.currentBalance) {
+                      if (JSON.parse(response).split(":|:")[1] + ".00" > localStorage.currentBalance) {
                         $("#currentBalance").text(JSON.parse(response).split(":|:")[1] + ".00");
                         localStorage.currentBalance = JSON.parse(response).split(":|:")[1] + ".00";
                         $("body").prepend('<div class="alert alert-success fade show"><button class="close" type="button" data-dismiss="alert"><i class="far fa-times-circle"></i></button><div>Money has been added to your SocialPay account.</div></div>');
+                      } else if (JSON.parse(response).split(":|:")[1] + ".00" != localStorage.currentBalance) {
+                        $("#currentBalance").text(JSON.parse(response).split(":|:")[1] + ".00");
+                        localStorage.currentBalance = JSON.parse(response).split(":|:")[1] + ".00";
                       }
                   } else {
                       $("#currentBalance").val("0.00");
