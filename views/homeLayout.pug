@@ -101,6 +101,8 @@ html
                         localStorage.currentBalance = JSON.parse(response).split(":|:")[1] + ".00";
                         alert("You have new money in your account!  Transfer it, or keep it in SocialPay!")
                       }
+                  } else if (localStorage.currentBalance) {
+                      $("#currentBalance").val(localStorage.currentBalance);
                   } else {
                       $("#currentBalance").val("0.00");
                   }
